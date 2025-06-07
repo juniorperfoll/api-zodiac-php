@@ -1,0 +1,29 @@
+- name: Configuração Zodiac API
+  hosts: zodiac
+  become: true
+
+  tasks:
+    - name: Atualizar pacotes
+      apt:
+        update_cache: yes
+
+    - name: Instalar PHP
+      apt:
+        name: php
+        state: present
+
+    - name: Instalar Docker
+      apt:
+        name: docker.io
+        state: present
+
+    - name: Clonar repositório
+      git:
+        repo: 'https://github.com/juniorperfoll/api-zodiac-php.git'
+        dest: /home/ubuntu/api-zodiac
+        version: main
+
+    - name: Rodar API
+      shell: |
+        cd /home/ubuntu/api-zodiac
+        nohup php -S 0.0.0.0:8000 index.php &

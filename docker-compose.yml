@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  api:
+    build: .
+    ports: 
+      - "8000:8000"
+    volumes:
+      - ".:/var/www/html"
+  test:
+    build: .
+    depends_on:
+      - api
+    entrypoint: ["php", "testes/test_signos.php"]
